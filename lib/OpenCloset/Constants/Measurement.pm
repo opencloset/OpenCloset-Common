@@ -98,3 +98,13 @@ our %UNIT_MAP = (
 );
 
 1;
+
+__END__
+
+=head1 COPYRIGHT
+
+The MIT License (MIT)
+
+Copyright (c) 2016 열린옷장
+
+=cut
