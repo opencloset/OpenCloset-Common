@@ -22,6 +22,8 @@ use utf8;
 use Moo;
 use Mojo::Log;
 
+use OpenCloset::Constants::Category;
+
 our %WAIST_THIGH_MAP = (
     78  => 58,
     80  => 60,
@@ -194,6 +196,11 @@ our %HIP_LENGTH_MAP = (
     115 => 54,
 );
 
+our %TOPBELLY_ARM_MAP;
+map { $TOPBELLY_ARM_MAP{$_} = 56 } ( 50 .. 62 );  # aanoaa's custom
+map { $TOPBELLY_ARM_MAP{$_} = 56 } ( 62 .. 68 );
+map { $TOPBELLY_ARM_MAP{$_} = 58 } ( 69 .. 100 ); # aanoaa's custom
+
 has clothes => ( is => 'ro', required => 1 );
 has rs      => ( is => 'ro', default  => sub { shift->clothes } );
 has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
@@ -213,30 +220,27 @@ has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
 sub suggest_repair_size {
     my ( $self, $opts ) = @_;
 
-    my $rs     = $self->rs;
-    my $code   = $rs->code;
-    my $gender = $rs->gender || '';
+    my $rs       = $self->rs;
+    my $code     = $rs->code;
+    my $category = $rs->category;
+    my $gender   = $rs->gender || '';
     my ( $top, $bottom );
 
-    $code =~ s/^0//;
-    my $first = substr $code, 0, 1;
-    if ( $first =~ /^(J|P|K)/ ) { # Jacket, Pants, sKirt
-        if ( $first eq 'J' ) {
-            my $suit = $rs->suit_code_top;
-            $top = $rs;
-            $bottom = $suit->code_bottom if $suit;
-        }
-        else {
-            my $suit = $rs->suit_code_bottom;
-            $top = $suit->code_top if $suit;
-            $bottom = $rs;
-        }
+    $self->log->debug("code: $code");
+    $self->log->debug("category: $category");
+    $self->log->debug("gender: $gender");
+
+    if ( "$PANTS $SKIRT" =~ m/\b$category\b/ ) {
+        my $suit = $rs->suit_code_bottom;
+        $top = $suit->code_top if $suit;
+        $bottom = $rs;
     }
     else {
-        print STDERR "Not supported category: $code\n";
-        return {};
+        $self->log->debug("Not supported category: $category");
+        return;
     }
 
+    my $bust     = $top    ? $top->bust     || 0 : 0;
     my $topbelly = $top    ? $top->topbelly || 0 : 0;
     my $waist    = $bottom ? $bottom->waist || 0 : 0;
     my $deviation = $topbelly - $waist;
@@ -244,94 +248,158 @@ sub suggest_repair_size {
     my $thigh     = $bottom ? $bottom->thigh || 0 : 0;
     my $cuff      = $bottom ? $bottom->cuff || 0 : 0;
 
-    my %resize;
+    $self->log->debug("topbelly: $topbelly") if $topbelly;
+    $self->log->debug("waist: $waist")       if $waist;
+    $self->log->debug("hip: $hip")           if $hip;
+    $self->log->debug("thigh: $thigh")       if $thigh;
+    $self->log->debug("cuff: $cuff")         if $cuff;
+
+    $self->log->debug( sprintf "윗배 - 허리(deviation): %scm", $deviation );
+
+    my $stretch = 0;
+    $stretch += $opts->{stretch} if $opts->{stretch};
+    if ( $opts->{has_dual_tuck} ) {
+        $stretch += 8;
+    }
+    elsif ( $opts->{has_tuck} ) {
+        $stretch += 4;
+    }
+
+    my ( %bottom, %top );
+    my $done;
     use experimental 'switch';
-    given ($first) {
-        when (/^P/) {
+    given ($category) {
+        when (/$PANTS/) {
             break if $gender eq 'female';
-            $self->log->debug('남자 > 바지');
+
             if ( $deviation < 0 ) {
-                $self->log->debug('셋트의류가 아님');
+                $self->log->debug("deviation < 0cm");
+                $self->log->debug("허리가 윗배보다 크거나 셋트의류가 아님");
+                $self->log->debug("[완료]");
+                $done = 1;
             }
             elsif ( $deviation >= 5 && $deviation <= 8 ) {
-                $self->log->debug('윗배 - 허리: 5cm ~ 8cm');
-                $self->log->debug('허리치수에 따라 허벅지입력');
-                $self->log->debug('허리치수에 따라 밑통입력');
-                $self->log->debug('완료');
-                $resize{thigh} = $WAIST_THIGH_MAP{$waist};
-                $resize{cuff}  = $WAIST_CUFF_MAP{$waist};
+                $self->log->debug("deviation: 5cm ~ 8cm");
+                $bottom{thigh} = $WAIST_THIGH_MAP{$waist};
+                $bottom{cuff}  = $WAIST_CUFF_MAP{$waist};
+                $self->log->debug('[수선] 허벅지');
+                $self->log->debug('[수선] 밑단');
+                $self->log->debug('[완료]');
+                $done = 1;
             }
             elsif ( $deviation > 8 ) {
-                $self->log->debug('윗배 - 허리 > 8cm');
-                if ( $opts->{avail_stretch_waist} ) {
-                    $self->log->debug('허리늘임 가능');
-                    $self->log->debug('허리 = 윗배 - 9');
-                    $self->log->debug('허리치수에 따라 허벅지입력');
-                    $self->log->debug('허리치수에 따라 밑통입력');
-                    $self->log->debug('완료');
-                    $resize{waist} = $topbelly - 9;
-                    $resize{thigh} = $WAIST_THIGH_MAP{ $resize{$waist} };
-                    $resize{cuff}  = $WAIST_CUFF_MAP{ $resize{$waist} };
+                $self->log->debug("deviation > 8cm");
+                $self->log->debug( sprintf "+%scm 허리늘임 가능", $stretch );
+
+                my $expected_waist = $topbelly - 9;
+                if ( $waist + $stretch >= $expected_waist ) {
+                    $bottom{waist} = $expected_waist;
+                    $bottom{thigh} = $WAIST_THIGH_MAP{ $bottom{waist} };
+                    $bottom{cuff}  = $WAIST_CUFF_MAP{ $bottom{waist} };
+                    $self->log->debug('[수선] 허리');
+                    $self->log->debug('[수선] 허벅지');
+                    $self->log->debug('[수선] 밑단');
+                    $self->log->debug('[완료]');
+                    $done = 1;
                 }
                 else {
-                    if ( $opts->{tuck1} ) {
-                        $self->log->debug('1턱일 경우');
-                        ## 윗배 - 허리 = 9 가능?
-                        ## 윗배 - 허리 = 9 어려움?
-                    }
-                    elsif ( $opts->{tuck2} ) {
-                        $self->log->debug('2턱일 경우');
-                        # 1턱 품: 4cm 늘어남?
-                        # 2턱 품: 8cm 늘어남?
-                        # 윗배 - 허리 = 9cm 안됨?
-                    }
-                    else {
-                        $self->log->debug('노턱이거나 늘일 수 없을때');
-                    }
+                    $bottom{waist} = $waist + $stretch;
+                    $bottom{thigh} = $WAIST_THIGH_MAP{ $bottom{waist} };
+                    $bottom{cuff}  = $WAIST_CUFF_MAP{ $bottom{waist} };
+                    $self->log->debug('[수선] 허리');
+                    $self->log->debug('[수선] 허벅지');
+                    $self->log->debug('[수선] 밑단');
+                    $self->log->debug('[자켓수선필요]');
                 }
             }
             elsif ( $deviation < 5 ) {
-                $self->log->debug('허리 = 윗배 - 7');
-                $self->log->debug('허리치수에 따라 허벅지입력');
-                $self->log->debug('허리치수에 따라 밑통입력');
-                $self->log->debug('완료');
-                $resize{waist} = $topbelly - 7;
-                $resize{thigh} = $WAIST_THIGH_MAP{ $resize{$waist} };
-                $resize{cuff}  = $WAIST_CUFF_MAP{ $resize{$waist} };
+                $bottom{waist} = $topbelly - 7;
+                $bottom{thigh} = $WAIST_THIGH_MAP{ $bottom{waist} };
+                $bottom{cuff}  = $WAIST_CUFF_MAP{ $bottom{waist} };
+                $self->log->debug('[수선] 허리');
+                $self->log->debug('[수선] 허벅지');
+                $self->log->debug('[수선] 밑단');
+                $self->log->debug('[완료]');
+                $done = 1;
+            }
+
+            if ($top) {
+                $category = $JACKET;
+                continue;
             }
         }
-        when (/^J/) {
+        when (/$SKIRT/) {
+            $bottom{waist}  = $HIP_WAIST_MAP{$hip}  || 0;
+            $bottom{length} = $HIP_LENGTH_MAP{$hip} || 0;
+            $self->log->debug('[수선] 허리');
+            $self->log->debug('[수선] 길이');
+            my $distinction = $waist - $bottom{waist};
+            $distinction *= -1 if $distinction < 0;
+            if ( $distinction > 10 ) {
+                $bottom{'치마폭'} = '수선필요';
+                $self->log->debug('[수선] 치마폭');
+            }
+            $self->log->debug('[완료]');
+        }
+        when (/$JACKET/) {
             if ( $gender eq 'male' ) {
-                $self->log->debug('남자 > 자켓');
-                if ( $topbelly - $waist < 9 ) {
-                    $self->log->debug('윗배 - 허리 < 9cm');
-                    $self->log->debug('총장에 따라 팔길이 입력');
-                    $self->log->debug('완료');
-                    # 총장에 따른 팔길이가 없음
+                if ($done) {
+                    ## TODO: 팔길이 수선필요
+                    ## 총장에 따른 팔길이가 없음
+                    ## else 일때는 팔길이 수선 안하는지?
                 }
-                elsif ( $topbelly - $waist > 10 ) {
-                    $self->log->debug('윗배 - 허리 > 10cm');
+                else {
+                    my $temp = $bust - $topbelly;
+                    $self->log->debug( sprintf "가슴 - 윗배: %scm", $temp );
+                    break if $temp < 0 || $temp > 9;
+
+                    if ( $temp == 0 ) {
+                        $top{topbelly} = $bust - 4;
+                    }
+                    elsif ( $temp == 1 ) {
+                        $top{topbelly} = $bust - 3;
+                    }
+                    elsif ( $temp == 2 ) {
+                        $top{topbelly} = $bust - 2;
+                    }
+                    elsif ( $temp == 3 ) {
+                        $top{topbelly} = $bust - 1;
+                    }
+                    elsif ( $temp == 4 ) {
+                        $top{topbelly} = $bust - 4;
+                    }
+                    elsif ( $temp == 5 ) {
+                        $top{topbelly} = $bust - 3;
+                    }
+                    elsif ( $temp == 6 ) {
+                        $top{topbelly} = $bust - 2;
+                    }
+                    elsif ( $temp == 7 ) {
+                        $top{topbelly} = $bust - 1;
+                    }
+                    elsif ( $temp == 8 ) {
+                        $top{topbelly} = $bust - 2;
+                    }
+                    elsif ( $temp == 9 ) {
+                        $top{topbelly} = $bust - 1;
+                    }
+
+                    $self->log->debug('[수선] 윗배');
+                    $self->log->debug('[완료]');
                 }
             }
             elsif ( $gender eq 'female' ) {
-                $self->log->debug('여자 > 자켓');
+                $top{arm} = $TOPBELLY_ARM_MAP{$topbelly} || 0;
+                $self->log->debug('[수선] 팔길이');
+                $self->log->debug('[완료]');
             }
-        }
-        when (/^K/) {
-            my $length = $rs->length || 0;
-            $self->log->debug('여자 > 치마');
-            $self->log->debug('엉덩이 둘레에 따라 허리입력');
-            $self->log->debug('엉덩이 둘레에 따라 기장입력');
-            $self->log->debug('완료');
-            $resize{waist}  = $HIP_WAIST_MAP{$hip};
-            $resize{length} = $HIP_LENGTH_MAP{$hip};
         }
         default {
             $self->log->debug("만족하는 조건이 없습니다: $code");
         }
     }
 
-    return {%resize};
+    return { top => \%top, bottom => \%bottom };
 }
 
 1;
