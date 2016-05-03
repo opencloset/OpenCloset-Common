@@ -8,8 +8,13 @@ OpenCloset::Clothes - clothes funtions and so..
 
 =head1 SYNOPSIS
 
-    my $clothes = OpenCloset::Clothes->new(clothes => $clothes);
-    my hashref  = $clothes->suggest_repair_size;
+    my $clothes    = OpenCloset::Clothes->new(clothes => $clothes);
+    my $suggestion = $clothes->suggest_repair_size;
+    # {
+    #   bust  => 87,
+    #   waist => 78
+    #   ...
+    # }
 
 =cut
 
@@ -197,7 +202,7 @@ has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
 
 =head2 suggest_repair_size
 
-    my $hashref = $clothes->suggest_repair_size;
+    my $suggestion = $clothes->suggest_repair_size;
     # {
     #   bust  => 95
     #   waist => 78,
