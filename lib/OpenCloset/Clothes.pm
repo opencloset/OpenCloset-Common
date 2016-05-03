@@ -265,12 +265,20 @@ sub suggest_repair_size {
         $stretch += 4;
     }
 
-    my ( %bottom, %top );
+    my ( %bottom,      %top );
+    my ( @bottom_desc, @top_desc );
     my $done;
     use experimental 'switch';
     given ($category) {
         when (/$PANTS/) {
             break if $gender eq 'female';
+
+            $self->log->on(
+                message => sub {
+                    my ( $log, $level, @lines ) = @_;
+                    push @bottom_desc, @lines;
+                }
+            );
 
             if ( $deviation < 0 ) {
                 $self->log->debug("deviation < 0cm");
@@ -323,12 +331,22 @@ sub suggest_repair_size {
                 $done = 1;
             }
 
+            $self->log->unsubscribe('message');
+
             if ($top) {
                 $category = $JACKET;
                 continue;
             }
         }
         when (/$SKIRT/) {
+
+            $self->log->on(
+                message => sub {
+                    my ( $log, $level, @lines ) = @_;
+                    push @bottom_desc, @lines;
+                }
+            );
+
             $bottom{waist}  = $HIP_WAIST_MAP{$hip}  || 0;
             $bottom{length} = $HIP_LENGTH_MAP{$hip} || 0;
             $self->log->debug('[수선] 허리');
@@ -340,8 +358,18 @@ sub suggest_repair_size {
                 $self->log->debug('[수선] 치마폭');
             }
             $self->log->debug('[완료]');
+
+            $self->log->unsubscribe('message');
         }
         when (/$JACKET/) {
+
+            $self->log->on(
+                message => sub {
+                    my ( $log, $level, @lines ) = @_;
+                    push @top_desc, @lines;
+                }
+            );
+
             if ( $gender eq 'male' ) {
                 if ($done) {
                     ## TODO: 팔길이 수선필요
@@ -393,13 +421,15 @@ sub suggest_repair_size {
                 $self->log->debug('[수선] 팔길이');
                 $self->log->debug('[완료]');
             }
+
+            $self->log->unsubscribe('message');
         }
         default {
             $self->log->debug("만족하는 조건이 없습니다: $code");
         }
     }
 
-    return { top => \%top, bottom => \%bottom };
+    return { top => \%top, bottom => \%bottom, messages => { top => [@top_desc], bottom => [@bottom_desc] } };
 }
 
 1;
