@@ -201,6 +201,42 @@ map { $TOPBELLY_ARM_MAP{$_} = 56 } ( 50 .. 62 );  # aanoaa's custom
 map { $TOPBELLY_ARM_MAP{$_} = 56 } ( 62 .. 68 );
 map { $TOPBELLY_ARM_MAP{$_} = 58 } ( 69 .. 100 ); # aanoaa's custom
 
+our %LENGTH_ARM_MAP = (
+    60 => 50,
+    62 => 51,
+    64 => 52,
+    66 => 53,
+    68 => 54,
+    70 => 56,
+    72 => 58,
+    74 => 60,
+    76 => 61,
+    78 => 62,
+    80 => 64,
+    82 => 66,
+    84 => 67,
+    86 => 68,
+    88 => 69,
+    90 => 70,
+
+    ## aanoaa's custom
+    61 => 50,
+    63 => 51,
+    65 => 52,
+    67 => 53,
+    69 => 55,
+    71 => 57,
+    73 => 59,
+    75 => 60,
+    77 => 61,
+    79 => 63,
+    81 => 65,
+    83 => 66,
+    85 => 67,
+    87 => 68,
+    89 => 69,
+);
+
 has clothes => ( is => 'ro', required => 1 );
 has rs      => ( is => 'ro', default  => sub { shift->clothes } );
 has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
@@ -254,7 +290,7 @@ sub suggest_repair_size {
     $self->log->debug("thigh: $thigh")       if $thigh;
     $self->log->debug("cuff: $cuff")         if $cuff;
 
-    $self->log->debug( sprintf "윗배 - 허리(deviation): %scm", $deviation );
+    $self->log->debug( sprintf "윗배 - 허리: %scm", $deviation );
 
     my $stretch = 0;
     $stretch += $opts->{stretch} if $opts->{stretch};
@@ -281,13 +317,13 @@ sub suggest_repair_size {
             );
 
             if ( $deviation < 0 ) {
-                $self->log->debug("deviation < 0cm");
+                $self->log->debug("윗배 - 허리 < 0cm");
                 $self->log->debug("허리가 윗배보다 크거나 셋트의류가 아님");
                 $self->log->debug("[완료]");
                 $done = 1;
             }
             elsif ( $deviation >= 5 && $deviation <= 8 ) {
-                $self->log->debug("deviation: 5cm ~ 8cm");
+                $self->log->debug("윗배 - 허리: 5cm ~ 8cm");
                 $bottom{thigh} = $WAIST_THIGH_MAP{$waist};
                 $bottom{cuff}  = $WAIST_CUFF_MAP{$waist};
                 $self->log->debug('[수선] 허벅지');
@@ -296,7 +332,7 @@ sub suggest_repair_size {
                 $done = 1;
             }
             elsif ( $deviation > 8 ) {
-                $self->log->debug("deviation > 8cm");
+                $self->log->debug("윗배 - 허리 > 8cm");
                 $self->log->debug( sprintf "+%scm 허리늘임 가능", $stretch );
 
                 my $expected_waist = $topbelly - 9;
@@ -371,12 +407,12 @@ sub suggest_repair_size {
             );
 
             if ( $gender eq 'male' ) {
-                if ($done) {
-                    ## TODO: 팔길이 수선필요
-                    ## 총장에 따른 팔길이가 없음
-                    ## else 일때는 팔길이 수선 안하는지?
-                }
-                else {
+                my $length = $top->length || 0;
+                $top{arm} = $LENGTH_ARM_MAP{$length} || 0;
+                delete $top{arm} unless $top{arm};
+                $self->log->debug('[수선] 팔길이');
+
+                unless ($done) {
                     my $temp = $bust - $topbelly;
                     $self->log->debug( sprintf "가슴 - 윗배: %scm", $temp );
                     break if $temp < 0 || $temp > 9;
