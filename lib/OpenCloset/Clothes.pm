@@ -290,8 +290,6 @@ sub suggest_repair_size {
     $self->log->debug("thigh: $thigh")       if $thigh;
     $self->log->debug("cuff: $cuff")         if $cuff;
 
-    $self->log->debug( sprintf "윗배 - 허리: %scm", $deviation );
-
     my $stretch = 0;
     $stretch += $opts->{stretch} if $opts->{stretch};
     if ( $opts->{has_dual_tuck} ) {
@@ -316,23 +314,24 @@ sub suggest_repair_size {
                 }
             );
 
+            $self->log->debug( sprintf "윗배 - 허리: %scm", $deviation );
+
             if ( $deviation < 0 ) {
-                $self->log->debug("윗배 - 허리 < 0cm");
                 $self->log->debug("허리가 윗배보다 크거나 셋트의류가 아님");
-                $self->log->debug("[완료]");
-                $done = 1;
-            }
-            elsif ( $deviation >= 5 && $deviation <= 8 ) {
-                $self->log->debug("윗배 - 허리: 5cm ~ 8cm");
                 $bottom{thigh} = $WAIST_THIGH_MAP{$waist};
                 $bottom{cuff}  = $WAIST_CUFF_MAP{$waist};
                 $self->log->debug('[수선] 허벅지');
                 $self->log->debug('[수선] 밑단');
-                $self->log->debug('[완료]');
+                $done = 1;
+            }
+            elsif ( $deviation >= 5 && $deviation <= 8 ) {
+                $bottom{thigh} = $WAIST_THIGH_MAP{$waist};
+                $bottom{cuff}  = $WAIST_CUFF_MAP{$waist};
+                $self->log->debug('[수선] 허벅지');
+                $self->log->debug('[수선] 밑단');
                 $done = 1;
             }
             elsif ( $deviation > 8 ) {
-                $self->log->debug("윗배 - 허리 > 8cm");
                 $self->log->debug( sprintf "+%scm 허리늘임 가능", $stretch );
 
                 my $expected_waist = $topbelly - 9;
@@ -343,7 +342,6 @@ sub suggest_repair_size {
                     $self->log->debug('[수선] 허리');
                     $self->log->debug('[수선] 허벅지');
                     $self->log->debug('[수선] 밑단');
-                    $self->log->debug('[완료]');
                     $done = 1;
                 }
                 else {
@@ -353,7 +351,6 @@ sub suggest_repair_size {
                     $self->log->debug('[수선] 허리');
                     $self->log->debug('[수선] 허벅지');
                     $self->log->debug('[수선] 밑단');
-                    $self->log->debug('[자켓수선필요]');
                 }
             }
             elsif ( $deviation < 5 ) {
@@ -363,7 +360,6 @@ sub suggest_repair_size {
                 $self->log->debug('[수선] 허리');
                 $self->log->debug('[수선] 허벅지');
                 $self->log->debug('[수선] 밑단');
-                $self->log->debug('[완료]');
                 $done = 1;
             }
 
@@ -393,7 +389,6 @@ sub suggest_repair_size {
                 $bottom{'치마폭'} = '수선필요';
                 $self->log->debug('[수선] 치마폭');
             }
-            $self->log->debug('[완료]');
 
             $self->log->unsubscribe('message');
         }
@@ -407,11 +402,6 @@ sub suggest_repair_size {
             );
 
             if ( $gender eq 'male' ) {
-                my $length = $top->length || 0;
-                $top{arm} = $LENGTH_ARM_MAP{$length} || 0;
-                delete $top{arm} unless $top{arm};
-                $self->log->debug('[수선] 팔길이');
-
                 unless ($done) {
                     my $temp = $bust - $topbelly;
                     $self->log->debug( sprintf "가슴 - 윗배: %scm", $temp );
@@ -449,13 +439,16 @@ sub suggest_repair_size {
                     }
 
                     $self->log->debug('[수선] 윗배');
-                    $self->log->debug('[완료]');
                 }
+
+                my $length = $top->length || 0;
+                $top{arm} = $LENGTH_ARM_MAP{$length} || 0;
+                delete $top{arm} unless $top{arm};
+                $self->log->debug('[수선] 팔길이');
             }
             elsif ( $gender eq 'female' ) {
                 $top{arm} = $TOPBELLY_ARM_MAP{$topbelly} || 0;
                 $self->log->debug('[수선] 팔길이');
-                $self->log->debug('[완료]');
             }
 
             $self->log->unsubscribe('message');
