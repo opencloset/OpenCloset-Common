@@ -1,4 +1,14 @@
 package OpenCloset::Clothes;
+require Exporter;
+@ISA       = qw(Exporter);
+@EXPORT_OK = qw(
+    %WAIST_THIGH_MAP
+    %WAIST_CUFF_MAP
+    %HIP_WAIST_MAP
+    %HIP_LENGTH_MAP
+    %TOPBELLY_ARM_MAP
+    %LENGTH_ARM_MAP
+);
 
 =encoding utf8
 
