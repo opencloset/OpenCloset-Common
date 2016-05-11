@@ -324,7 +324,8 @@ sub suggest_repair_size {
                 }
             );
 
-            $self->log->debug( sprintf "윗배 - 허리: %scm", $deviation );
+            $self->log->debug( sprintf "+%scm 허리늘임 가능", $stretch );
+            $self->log->debug( sprintf "윗배 - 허리: %scm",     $deviation );
 
             if ( $deviation < 0 ) {
                 $self->log->debug("허리가 윗배보다 크거나 셋트의류가 아님");
@@ -342,8 +343,6 @@ sub suggest_repair_size {
                 $done = 1;
             }
             elsif ( $deviation > 8 ) {
-                $self->log->debug( sprintf "+%scm 허리늘임 가능", $stretch );
-
                 my $expected_waist = $topbelly - 9;
                 if ( $waist + $stretch >= $expected_waist ) {
                     $bottom{waist} = $expected_waist;
