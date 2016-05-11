@@ -128,6 +128,8 @@ our %WAIST_CUFF_MAP = (
     119 => 8.50,
 );
 
+map { $WAIST_CUFF_MAP{$_} = 7.00 } ( 60 .. 77 ); # prevent uninitialized value warn
+
 our %HIP_WAIST_MAP = (
     82  => 59,
     84  => 60,
