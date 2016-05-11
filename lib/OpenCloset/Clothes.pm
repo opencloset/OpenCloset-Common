@@ -257,8 +257,12 @@ has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
 
     my $suggestion = $clothes->suggest_repair_size;
     # {
-    #   bust  => 95
-    #   waist => 78,
+    #   top    => { arm => 69, ... },
+    #   bottom => { topbelly => 93, ... },
+    #   messages => {
+    #     top    => [...],
+    #     bottom => [...]
+    #   }
     # }
 
 =cut
@@ -266,22 +270,16 @@ has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
 sub suggest_repair_size {
     my ( $self, $opts ) = @_;
 
-    my $rs       = $self->rs;
-    my $code     = $rs->code;
-    my $category = $rs->category;
-    my $gender   = $rs->gender || '';
-    my ( $top, $bottom );
+    my $rs     = $self->rs;
+    my $code   = $rs->code;
+    my $gender = $rs->gender || '';
+    my ( $top, $bottom ) = ( $rs->top, $rs->bottom );
+    my $category = $bottom ? $bottom->category : $rs->category;
 
     $self->log->debug("code: $code");
-    $self->log->debug("category: $category");
     $self->log->debug("gender: $gender");
 
-    if ( "$PANTS $SKIRT" =~ m/\b$category\b/ ) {
-        my $suit = $rs->suit_code_bottom;
-        $top = $suit->code_top if $suit;
-        $bottom = $rs;
-    }
-    else {
+    unless ( "$JACKET $PANTS $SKIRT" =~ m/\b$category\b/ ) {
         $self->log->debug("Not supported category: $category");
         return;
     }
