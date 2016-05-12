@@ -1,6 +1,9 @@
 package OpenCloset::Constants::Category;
 
 use utf8;
+require Exporter;
+@ISA    = qw/Exporter/;
+@EXPORT = qw/$BELT $BLOUSE $COAT $JACKET $ONEPIECE $PANTS $SHIRT $SHOES $SKIRT $TIE $WAISTCOAT $MISC/;
 
 our $BELT      = 'belt';
 our $BLOUSE    = 'blouse';
