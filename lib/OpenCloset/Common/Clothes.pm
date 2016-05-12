@@ -272,10 +272,11 @@ has log     => ( is => 'ro', default  => sub { Mojo::Log->new } );
 sub suggest_repair_size {
     my ( $self, $opts ) = @_;
 
-    my $rs     = $self->rs;
-    my $code   = $rs->code;
-    my $gender = $rs->gender || '';
-    my ( $top, $bottom ) = ( $rs->top, $rs->bottom );
+    my $rs       = $self->rs;
+    my $code     = $rs->code;
+    my $gender   = $rs->gender || '';
+    my $top      = $rs->top;
+    my $bottom   = $rs->bottom;
     my $category = $bottom ? $bottom->category : $rs->category;
 
     $self->log->debug("code: $code");
