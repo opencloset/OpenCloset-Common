@@ -1,4 +1,4 @@
-package OpenCloset::Clothes;
+package OpenCloset::Common::Clothes;
 require Exporter;
 @ISA       = qw(Exporter);
 @EXPORT_OK = qw(
@@ -14,11 +14,11 @@ require Exporter;
 
 =head1 NAME
 
-OpenCloset::Clothes - clothes funtions and so..
+OpenCloset::Common::Clothes - clothes funtions and so..
 
 =head1 SYNOPSIS
 
-    my $clothes    = OpenCloset::Clothes->new(clothes => $clothes);
+    my $clothes    = OpenCloset::Common::Clothes->new(clothes => $clothes);
     my $suggestion = $clothes->suggest_repair_size;
     # {
     #   bust  => 87,

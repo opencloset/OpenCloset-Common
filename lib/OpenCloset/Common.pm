@@ -8,11 +8,13 @@ OpenCloset::Common - Common perl libs of OpenCloset
 
 =head1 Libs
 
-=head2 Constants
+=head2 OpenCloset::Common::Clothes
 
-=head3 OpenCloset::Constants::Category
+=head1 Constants
 
-=head3 OpenCloset::Constants::Measurement
+=head2 OpenCloset::Constants::Category
+
+=head2 OpenCloset::Constants::Measurement
 
 =head1 COPYRIGHT
 
