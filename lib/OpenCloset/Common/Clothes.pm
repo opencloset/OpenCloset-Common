@@ -348,7 +348,7 @@ sub suggest_repair_size {
                 if ( $waist + $stretch >= $expected_waist ) {
                     $bottom{waist} = $expected_waist;
                     $bottom{thigh} = $WAIST_THIGH_MAP{ $bottom{waist} };
-                    $bottom{cuff}  = sprintf '%.2f', $WAIST_CUFF_MAP{$waist};
+                    $bottom{cuff}  = sprintf '%.2f', $WAIST_CUFF_MAP{ $bottom{waist} };
                     $self->log->debug('[수선] 허리');
                     $self->log->debug('[수선] 허벅지');
                     $self->log->debug('[수선] 밑단');
@@ -357,7 +357,7 @@ sub suggest_repair_size {
                 else {
                     $bottom{waist} = $waist + $stretch;
                     $bottom{thigh} = $WAIST_THIGH_MAP{ $bottom{waist} };
-                    $bottom{cuff}  = sprintf '%.2f', $WAIST_CUFF_MAP{$waist};
+                    $bottom{cuff}  = sprintf '%.2f', $WAIST_CUFF_MAP{ $bottom{waist} };
                     $self->log->debug('[수선] 허리');
                     $self->log->debug('[수선] 허벅지');
                     $self->log->debug('[수선] 밑단');
@@ -366,7 +366,7 @@ sub suggest_repair_size {
             elsif ( $deviation < 5 ) {
                 $bottom{waist} = $topbelly - 7;
                 $bottom{thigh} = $WAIST_THIGH_MAP{ $bottom{waist} };
-                $bottom{cuff}  = sprintf '%.2f', $WAIST_CUFF_MAP{$waist};
+                $bottom{cuff}  = sprintf '%.2f', $WAIST_CUFF_MAP{ $bottom{waist} };
                 $self->log->debug('[수선] 허리');
                 $self->log->debug('[수선] 허벅지');
                 $self->log->debug('[수선] 밑단');
