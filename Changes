@@ -1,3 +1,5 @@
+  - resize 된 허리 둘레에 맞춰서 밑단을 계산하도록 함
+
 v0.0.3    Thu, 12 May 2016 13:12:24 +0900
   - Fix assigned clothes top, bottom syntax
 
