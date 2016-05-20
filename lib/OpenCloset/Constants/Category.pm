@@ -2,8 +2,9 @@ package OpenCloset::Constants::Category;
 
 use utf8;
 require Exporter;
-@ISA    = qw/Exporter/;
-@EXPORT = qw/$BELT $BLOUSE $COAT $JACKET $ONEPIECE $PANTS $SHIRT $SHOES $SKIRT $TIE $WAISTCOAT $MISC/;
+@ISA       = qw/Exporter/;
+@EXPORT    = qw/$BELT $BLOUSE $COAT $JACKET $ONEPIECE $PANTS $SHIRT $SHOES $SKIRT $TIE $WAISTCOAT $MISC/;
+@EXPORT_OK = qw/%LABEL_MAP %REVERSE_MAP %PRICE/;
 
 our $BELT      = 'belt';
 our $BLOUSE    = 'blouse';
@@ -56,6 +57,8 @@ our %LABEL_MAP = (
     $WAISTCOAT => $LABEL_WAISTCOAT,
     $MISC      => $LABEL_MISC,
 );
+
+our %REVERSE_MAP = reverse %LABEL_MAP;
 
 our %PRICE = (
     $BELT      => 2000,
