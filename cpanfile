@@ -1,2 +1,2 @@
-requires 'Mojo::Log';
+requires 'Mojolicious';
 requires 'Moo';
