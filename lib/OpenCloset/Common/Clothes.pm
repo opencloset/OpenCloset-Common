@@ -316,8 +316,6 @@ sub suggest_repair_size {
     use experimental 'switch';
     given ($category) {
         when (/$PANTS/) {
-            break if $gender eq 'female';
-
             $self->log->on(
                 message => sub {
                     my ( $log, $level, @lines ) = @_;
