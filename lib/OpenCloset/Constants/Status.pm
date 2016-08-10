@@ -204,6 +204,126 @@ our %LABEL_MAP = (
 
 __END__
 
+=encoding utf8
+
+=head1 NAME
+
+OpenCloset::Constants::Status
+
+=head1 EXPORT_OK
+
+=over
+
+=item $RENTABLE
+
+=item $RENTAL
+
+=item $RENTALESS
+
+=item $RESERVATION
+
+=item $CLEANING
+
+=item $REPAIR
+
+=item $LOST
+
+=item $DISCARD
+
+=item $RETURNED
+
+=item $PARTIAL_RETURNED
+
+=item $RETURNING
+
+=item $NOT_VISITED
+
+=item $VISITED
+
+=item $RESERVATED
+
+=item $RETURN_RESERVATED
+
+=item $MEASUREMENT
+
+=item $SELECT
+
+=item $BOX
+
+=item $PAYMENT
+
+=item $FITTING_ROOM1
+
+=item $FITTING_ROOM2
+
+=item $FITTING_ROOM3
+
+=item $FITTING_ROOM4
+
+=item $FITTING_ROOM5
+
+=item $FITTING_ROOM6
+
+=item $FITTING_ROOM7
+
+=item $FITTING_ROOM8
+
+=item $FITTING_ROOM9
+
+=item $FITTING_ROOM10
+
+=item $FITTING_ROOM11
+
+=item $FITTING_ROOM12
+
+=item $FITTING_ROOM13
+
+=item $FITTING_ROOM14
+
+=item $FITTING_ROOM15
+
+=item $FITTING_ROOM16
+
+=item $FITTING_ROOM17
+
+=item $FITTING_ROOM18
+
+=item $FITTING_ROOM19
+
+=item $FITTING_ROOM20
+
+=item $NOT_RENTAL
+
+=item $CANCEL_BOX
+
+=item $PAYBACK
+
+=item $NO_SIZE
+
+=item $BOXED
+
+=item $RECYCLE_1
+
+=item $RECYCLE_2
+
+=item $UNRECYCLE
+
+=item $CHOOSE_CLOTHES
+
+=item $PAYMENT_DONE
+
+=item $DEPOSIT_CONFIRMED
+
+=item $WAITING_SHIPPED
+
+=item $SHIPPED
+
+=item $DELIVERED
+
+=item $RETURN_REQUESTED
+
+=back
+
 =head1 COPYRIGHT
 
 The MIT License (MIT)

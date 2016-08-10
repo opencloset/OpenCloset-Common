@@ -100,6 +100,8 @@ our %UNIT_MAP = (
 
 __END__
 
+=encoding utf8
+
 =head1 COPYRIGHT
 
 The MIT License (MIT)
