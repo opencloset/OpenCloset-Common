@@ -22,6 +22,9 @@ our $SKIRT    = 'skirt';
 our $LENGTH   = 'length';
 our $CUFF     = 'cuff';
 
+our $COLOR  = 'color';  # for clothes
+our $GENDER = 'gender'; # for clothes
+
 our @ALL = (
     $HEIGHT,   $WEIGHT, $NECK,  $BUST,   $WAIST, $HIP,
     $TOPBELLY, $BELLY,  $THIGH, $ARM,    $LEG,   $KNEE,
@@ -48,6 +51,9 @@ our $LABEL_SKIRT    = '스커트길이';
 our $LABEL_LENGTH   = '길이';
 our $LABEL_CUFF     = '밑단둘레';
 
+our $LABEL_COLOR  = '색상'; # for clothes
+our $LABEL_GENDER = '성별'; # for clothes
+
 our @ALL_LABEL = (
     $LABEL_HEIGHT, $LABEL_WEIGHT, $LABEL_NECK,     $LABEL_BUST,
     $LABEL_WAIST,  $LABEL_HIP,    $LABEL_TOPBELLY, $LABEL_BELLY,
@@ -73,7 +79,9 @@ our %LABEL_MAP = (
     $PANTS    => $LABEL_PANTS,
     $SKIRT    => $LABEL_SKIRT,
     $LENGTH   => $LABEL_LENGTH,
-    $CUFF     => $LABEL_CUFF
+    $CUFF     => $LABEL_CUFF,
+    $COLOR    => $LABEL_COLOR,
+    $GENDER   => $LABEL_GENDER,
 );
 
 our %UNIT_MAP = (
