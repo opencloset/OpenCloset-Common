@@ -1,6 +1,11 @@
 package OpenCloset::Constants::Measurement;
 
 use utf8;
+require Exporter;
+@ISA = qw/Exporter/;
+@EXPORT =
+    qw/$HEIGHT $WEIGHT $NECK $BUST $WAIST $HIP $TOPBELLY $BELLY $THIGH $ARM $LEG $KNEE $FOOT $PANTS $SKIRT $LENGTH $CUFF $COLOR $GENDER/;
+
 use strict;
 use warnings;
 
@@ -109,6 +114,54 @@ our %UNIT_MAP = (
 __END__
 
 =encoding utf8
+
+=head1 NAME
+
+OpenCloset::Constants::Measurement
+
+=head1 EXPORT
+
+=over
+
+=item $HEIGHT
+
+=item $WEIGHT
+
+=item $NECK
+
+=item $BUST
+
+=item $WAIST
+
+=item $HIP
+
+=item $TOPBELLY
+
+=item $BELLY
+
+=item $THIGH
+
+=item $ARM
+
+=item $LEG
+
+=item $KNEE
+
+=item $FOOT
+
+=item $PANTS
+
+=item $SKIRT
+
+=item $LENGTH
+
+=item $CUFF
+
+=item $COLOR
+
+=item $GENDER
+
+=back
 
 =head1 COPYRIGHT
 
