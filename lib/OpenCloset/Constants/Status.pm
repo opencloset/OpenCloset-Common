@@ -204,6 +204,17 @@ our %LABEL_MAP = (
     $RETURN_REQUESTED  => $LABEL_RETURN_REQUESTED,
 );
 
+our %COLOR_MAP = (
+    $RENTABLE        => 'label-success',
+    $RENTAL          => 'label-danger',
+    $RENTALESS       => 'label-danger',
+    $LOST            => 'label-danger',
+    $DISCARD         => 'label-danger',
+    $WAITING_SHIPPED => 'label-success',
+);
+
+map { $COLOR_MAP{$_} ||= 'label-default' } @ALL;
+
 1;
 
 __END__
