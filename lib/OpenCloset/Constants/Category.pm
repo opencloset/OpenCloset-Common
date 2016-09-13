@@ -71,7 +71,7 @@ our %PRICE = (
     $SHIRT     => 5000,
     $SHOES     => 5000,
     $SKIRT     => 10000,
-    $TIE       => 2000,
+    $TIE       => 0,
     $WAISTCOAT => 5000,
     $MISC      => 0,
 );
