@@ -1,6 +1,11 @@
 package OpenCloset::Constants::Measurement;
 
 use utf8;
+require Exporter;
+@ISA = qw/Exporter/;
+@EXPORT =
+    qw/$HEIGHT $WEIGHT $NECK $BUST $WAIST $HIP $TOPBELLY $BELLY $THIGH $ARM $LEG $KNEE $FOOT $PANTS $SKIRT $LENGTH $CUFF $COLOR $GENDER/;
+
 use strict;
 use warnings;
 
@@ -22,14 +27,16 @@ our $SKIRT    = 'skirt';
 our $LENGTH   = 'length';
 our $CUFF     = 'cuff';
 
+our $COLOR  = 'color';  # for clothes
+our $GENDER = 'gender'; # for clothes
+
 our @ALL = (
     $HEIGHT,   $WEIGHT, $NECK,  $BUST,   $WAIST, $HIP,
     $TOPBELLY, $BELLY,  $THIGH, $ARM,    $LEG,   $KNEE,
     $FOOT,     $PANTS,  $SKIRT, $LENGTH, $CUFF
 );
 
-our @PRIMARY =
-  ( $HEIGHT, $WEIGHT, $NECK, $BUST, $WAIST, $THIGH, $ARM, $LEG, $KNEE, $FOOT );
+our @PRIMARY = ( $HEIGHT, $WEIGHT, $NECK, $BUST, $WAIST, $THIGH, $ARM, $LEG, $KNEE, $FOOT );
 
 our $LABEL_HEIGHT   = '키';
 our $LABEL_WEIGHT   = '몸무게';
@@ -48,6 +55,9 @@ our $LABEL_PANTS    = '바지길이';
 our $LABEL_SKIRT    = '스커트길이';
 our $LABEL_LENGTH   = '길이';
 our $LABEL_CUFF     = '밑단둘레';
+
+our $LABEL_COLOR  = '색상'; # for clothes
+our $LABEL_GENDER = '성별'; # for clothes
 
 our @ALL_LABEL = (
     $LABEL_HEIGHT, $LABEL_WEIGHT, $LABEL_NECK,     $LABEL_BUST,
@@ -74,7 +84,9 @@ our %LABEL_MAP = (
     $PANTS    => $LABEL_PANTS,
     $SKIRT    => $LABEL_SKIRT,
     $LENGTH   => $LABEL_LENGTH,
-    $CUFF     => $LABEL_CUFF
+    $CUFF     => $LABEL_CUFF,
+    $COLOR    => $LABEL_COLOR,
+    $GENDER   => $LABEL_GENDER,
 );
 
 our %UNIT_MAP = (
@@ -100,6 +112,56 @@ our %UNIT_MAP = (
 1;
 
 __END__
+
+=encoding utf8
+
+=head1 NAME
+
+OpenCloset::Constants::Measurement
+
+=head1 EXPORT
+
+=over
+
+=item $HEIGHT
+
+=item $WEIGHT
+
+=item $NECK
+
+=item $BUST
+
+=item $WAIST
+
+=item $HIP
+
+=item $TOPBELLY
+
+=item $BELLY
+
+=item $THIGH
+
+=item $ARM
+
+=item $LEG
+
+=item $KNEE
+
+=item $FOOT
+
+=item $PANTS
+
+=item $SKIRT
+
+=item $LENGTH
+
+=item $CUFF
+
+=item $COLOR
+
+=item $GENDER
+
+=back
 
 =head1 COPYRIGHT
 
