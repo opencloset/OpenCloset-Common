@@ -80,6 +80,78 @@ our %PRICE = (
 
 __END__
 
+=encoding utf8
+
+=head1 NAME
+
+OpenCloset::Constants::Category
+
+=head1 EXPORT
+
+=over
+
+=item $BELT
+
+=item $BLOUSE
+
+=item $COAT
+
+=item $JACKET
+
+=item $ONEPIECE
+
+=item $PANTS
+
+=item $SHIRT
+
+=item $SHOES
+
+=item $SKIRT
+
+=item $TIE
+
+=item $WAISTCOAT
+
+=item $MISC
+
+=back
+
+=head1 EXPORT_OK
+
+=over
+
+=item %LABEL_MAP
+
+=item %REVERSE_MAP
+
+=item %PRICE
+
+=item $LABEL_BELT
+
+=item $LABEL_BLOUSE
+
+=item $LABEL_COAT
+
+=item $LABEL_JACKET
+
+=item $LABEL_ONEPIECE
+
+=item $LABEL_PANTS
+
+=item $LABEL_SHIRT
+
+=item $LABEL_SHOES
+
+=item $LABEL_SKIRT
+
+=item $LABEL_TIE
+
+=item $LABEL_WAISTCOAT
+
+=item $LABEL_MISC
+
+=back
+
 =head1 COPYRIGHT
 
 The MIT License (MIT)

@@ -1,3 +1,7 @@
+v0.0.8    Tue, 03 Jan 2017 13:21:58 +0900
+  - 온라인 상태를 update
+  - @OpenCloset::Constants::Measurement::PRIMARY 에 윗배와 엉덩이 둘레를 추가
+
 v0.0.7    Fri, 01 Jul 2016 15:17:57 +0900
   - 사이즈제안에서 여성팬츠를 고려
 

@@ -35,6 +35,10 @@ use Mojo::Log;
 use OpenCloset::Constants::Category;
 
 our %WAIST_THIGH_MAP = (
+    70  => 54,
+    72  => 55,
+    74  => 56,
+    76  => 57,
     78  => 58,
     80  => 60,
     82  => 62,
