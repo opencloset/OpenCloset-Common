@@ -36,7 +36,7 @@ our @ALL = (
     $FOOT,     $PANTS,  $SKIRT, $LENGTH, $CUFF
 );
 
-our @PRIMARY = ( $HEIGHT, $WEIGHT, $NECK, $BUST, $WAIST, $THIGH, $ARM, $LEG, $KNEE, $FOOT );
+our @PRIMARY = ( $HEIGHT, $WEIGHT, $NECK, $BUST, $WAIST, $TOPBELLY, $HIP, $THIGH, $ARM, $LEG, $KNEE, $FOOT );
 
 our $LABEL_HEIGHT   = '키';
 our $LABEL_WEIGHT   = '몸무게';
