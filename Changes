@@ -1,3 +1,6 @@
+v0.0.12   Tue, 14 Feb 2017 12:27:47 +0900
+  - Add %PAY_METHOD_MAP
+
 v0.0.11   Fri, 10 Feb 2017 13:21:02 +0900
   - Add OpenCloset::Constants
 
