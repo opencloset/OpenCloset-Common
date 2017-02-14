@@ -3,12 +3,19 @@ package OpenCloset::Constants;
 use utf8;
 require Exporter;
 @ISA       = qw/Exporter/;
-@EXPORT_OK = qw/$DEFAULT_RENTAL_PERIOD $SHIPPING_BUFFER $RENTAL_BUFFER $PARCEL_BUFFER/;
+@EXPORT_OK = qw/$DEFAULT_RENTAL_PERIOD $SHIPPING_BUFFER $RENTAL_BUFFER $PARCEL_BUFFER %PAY_METHOD_MAP/;
 
 our $DEFAULT_RENTAL_PERIOD = 3; # 기본 대여기간 3박 4일
 our $SHIPPING_BUFFER       = 3; # 4일전에 예약
 our $RENTAL_BUFFER         = 1; # 착용일 하루 전부터 대여일
 our $PARCEL_BUFFER         = 1; # 반납일 하루 전에 택배발송
+
+our %PAY_METHOD_MAP = (
+    card  => '신용카드',
+    trans => '실시간계좌이체',
+    vbank => '가상계좌',
+    phone => '휴대폰소액결제',
+);
 
 1;
 
