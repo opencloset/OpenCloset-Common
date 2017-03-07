@@ -1,3 +1,5 @@
+  - Category 에 BAG 을 추가
+
 v0.0.13   Wed, 15 Feb 2017 12:40:08 +0900
   - Remove $RENTAL_BUFFER and $PARCEL_BUFFER
   - Fix $SHIPPING_BUFFER from 3 to 2
