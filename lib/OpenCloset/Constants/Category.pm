@@ -3,9 +3,9 @@ package OpenCloset::Constants::Category;
 use utf8;
 require Exporter;
 @ISA    = qw/Exporter/;
-@EXPORT = qw/$BELT $BLOUSE $COAT $JACKET $ONEPIECE $PANTS $SHIRT $SHOES $SKIRT $TIE $WAISTCOAT $MISC/;
+@EXPORT = qw/$BELT $BLOUSE $COAT $JACKET $ONEPIECE $PANTS $SHIRT $SHOES $SKIRT $TIE $WAISTCOAT $BAG $MISC/;
 @EXPORT_OK =
-    qw/%LABEL_MAP %REVERSE_MAP %PRICE $LABEL_BELT $LABEL_BLOUSE $LABEL_COAT $LABEL_JACKET $LABEL_ONEPIECE $LABEL_PANTS $LABEL_SHIRT $LABEL_SHOES $LABEL_SKIRT $LABEL_TIE $LABEL_WAISTCOAT $LABEL_MISC/;
+    qw/%LABEL_MAP %REVERSE_MAP %PRICE $LABEL_BELT $LABEL_BLOUSE $LABEL_COAT $LABEL_JACKET $LABEL_ONEPIECE $LABEL_PANTS $LABEL_SHIRT $LABEL_SHOES $LABEL_SKIRT $LABEL_TIE $LABEL_WAISTCOAT $LABEL_BAG $LABEL_MISC/;
 
 our $BELT      = 'belt';
 our $BLOUSE    = 'blouse';
@@ -18,6 +18,7 @@ our $SHOES     = 'shoes';
 our $SKIRT     = 'skirt';
 our $TIE       = 'tie';
 our $WAISTCOAT = 'waistcoat';
+our $BAG       = 'bag';
 our $MISC      = 'misc';
 
 our $LABEL_BELT      = '벨트';
@@ -31,17 +32,18 @@ our $LABEL_SHOES     = '구두';
 our $LABEL_SKIRT     = '스커트';
 our $LABEL_TIE       = '타이';
 our $LABEL_WAISTCOAT = '조끼';
+our $LABEL_BAG       = '가방';
 our $LABEL_MISC      = '기타';
 
 our @ALL = (
-    $BELT,  $BLOUSE, $COAT,  $JACKET, $ONEPIECE,  $PANTS,
-    $SHIRT, $SHOES,  $SKIRT, $TIE,    $WAISTCOAT, $MISC
+    $BELT, $BLOUSE, $COAT, $JACKET, $ONEPIECE, $PANTS,
+    $SHIRT, $SHOES, $SKIRT, $TIE, $WAISTCOAT, $BAG, $MISC
 );
 
 our @ALL_LABEL = (
-    $LABEL_BELT,     $LABEL_BLOUSE, $LABEL_COAT,      $LABEL_JACKET,
-    $LABEL_ONEPIECE, $LABEL_PANTS,  $LABEL_SHIRT,     $LABEL_SHOES,
-    $LABEL_SKIRT,    $LABEL_TIE,    $LABEL_WAISTCOAT, $LABEL_MISC
+    $LABEL_BELT,     $LABEL_BLOUSE, $LABEL_COAT,  $LABEL_JACKET,
+    $LABEL_ONEPIECE, $LABEL_PANTS,  $LABEL_SHIRT, $LABEL_SHOES,
+    $LABEL_SKIRT, $LABEL_TIE, $LABEL_WAISTCOAT, $LABEL_BAG, $LABEL_MISC
 );
 
 our %LABEL_MAP = (
@@ -56,6 +58,7 @@ our %LABEL_MAP = (
     $SKIRT     => $LABEL_SKIRT,
     $TIE       => $LABEL_TIE,
     $WAISTCOAT => $LABEL_WAISTCOAT,
+    $BAG       => $LABEL_BAG,
     $MISC      => $LABEL_MISC,
 );
 
@@ -73,6 +76,7 @@ our %PRICE = (
     $SKIRT     => 10000,
     $TIE       => 0,
     $WAISTCOAT => 5000,
+    $BAG       => 5000,
     $MISC      => 0,
 );
 
@@ -112,6 +116,8 @@ OpenCloset::Constants::Category
 
 =item $WAISTCOAT
 
+=item $BAG
+
 =item $MISC
 
 =back
@@ -147,6 +153,8 @@ OpenCloset::Constants::Category
 =item $LABEL_TIE
 
 =item $LABEL_WAISTCOAT
+
+=item $LABEL_BAG
 
 =item $LABEL_MISC
 
