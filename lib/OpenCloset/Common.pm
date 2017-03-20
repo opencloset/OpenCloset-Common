@@ -10,6 +10,8 @@ OpenCloset::Common - Common perl libs of OpenCloset
 
 =head2 OpenCloset::Common::Clothes
 
+=head2 OpenCloset::Common::Unpaid
+
 =head1 Constants
 
 =head2 OpenCloset::Constants::Category
