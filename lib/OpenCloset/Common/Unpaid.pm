@@ -191,7 +191,7 @@ sub unpaid2xxx {
     };
 }
 
-=head2 unpaid2nonpaid
+=head2 unpaid2nonpaid( $order )
 
 미납 -> 불납
 
