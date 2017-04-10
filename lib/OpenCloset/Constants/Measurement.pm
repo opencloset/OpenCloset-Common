@@ -5,6 +5,7 @@ require Exporter;
 @ISA = qw/Exporter/;
 @EXPORT =
     qw/$HEIGHT $WEIGHT $NECK $BUST $WAIST $HIP $TOPBELLY $BELLY $THIGH $ARM $LEG $KNEE $FOOT $PANTS $SKIRT $LENGTH $CUFF $COLOR $GENDER/;
+@EXPORT_OK = qw/%AVG_LEG_BY_HEIGHT %AVG_KNEE_BY_HEIGHT/;
 
 use strict;
 use warnings;
@@ -109,6 +110,108 @@ our %UNIT_MAP = (
     $CUFF     => 'cm'
 );
 
+our %AVG_LEG_BY_HEIGHT = (
+    160 => 92.6,
+    161 => 92.6,
+    162 => 92.6,
+    163 => 92.6,
+    164 => 92.6,
+    165 => 92.6,
+
+    166 => 95.2,
+    167 => 95.2,
+    168 => 95.2,
+    169 => 95.2,
+    170 => 95.2,
+
+    171 => 97.8,
+    172 => 97.8,
+    173 => 97.8,
+    174 => 97.8,
+    175 => 97.8,
+
+    176 => 100.6,
+    177 => 100.6,
+    178 => 100.6,
+    179 => 100.6,
+    180 => 100.6,
+
+    181 => 103.6,
+    182 => 103.6,
+    183 => 103.6,
+    184 => 103.6,
+    185 => 103.6,
+
+    186 => 106.9,
+    187 => 106.9,
+    188 => 106.9,
+    189 => 106.9,
+    190 => 106.9,
+
+    191 => 110.0,
+    192 => 110.0,
+    193 => 110.0,
+    194 => 110.0,
+    195 => 110.0,
+
+    196 => 111.0,
+    197 => 111.0,
+    198 => 111.0,
+    199 => 111.0,
+    200 => 111.0,
+);
+
+our %AVG_KNEE_BY_HEIGHT = (
+    140 => 43.4,
+    141 => 43.4,
+    142 => 43.4,
+    143 => 43.4,
+    144 => 43.4,
+    145 => 43.4,
+
+    146 => 45.6,
+    147 => 45.6,
+    148 => 45.6,
+    149 => 45.6,
+    150 => 45.6,
+
+    151 => 47.2,
+    152 => 47.2,
+    153 => 47.2,
+    154 => 47.2,
+    155 => 47.2,
+
+    156 => 48.6,
+    157 => 48.6,
+    158 => 48.6,
+    159 => 48.6,
+    160 => 48.6,
+
+    161 => 49.7,
+    162 => 49.7,
+    163 => 49.7,
+    164 => 49.7,
+    165 => 49.7,
+
+    166 => 51.1,
+    167 => 51.1,
+    168 => 51.1,
+    169 => 51.1,
+    170 => 51.1,
+
+    171 => 52.8,
+    172 => 52.8,
+    173 => 52.8,
+    174 => 52.8,
+    175 => 52.8,
+
+    176 => 54.5,
+    177 => 54.5,
+    178 => 54.5,
+    179 => 54.5,
+    180 => 54.5,
+);
+
 1;
 
 __END__
@@ -123,43 +226,95 @@ OpenCloset::Constants::Measurement
 
 =over
 
-=item $HEIGHT
+=item *
 
-=item $WEIGHT
+C<$HEIGHT>
 
-=item $NECK
+=item *
 
-=item $BUST
+C<$WEIGHT>
 
-=item $WAIST
+=item *
 
-=item $HIP
+C<$NECK>
 
-=item $TOPBELLY
+=item *
 
-=item $BELLY
+C<$BUST>
 
-=item $THIGH
+=item *
 
-=item $ARM
+C<$WAIST>
 
-=item $LEG
+=item *
 
-=item $KNEE
+C<$HIP>
 
-=item $FOOT
+=item *
 
-=item $PANTS
+C<$TOPBELLY>
 
-=item $SKIRT
+=item *
 
-=item $LENGTH
+C<$BELLY>
 
-=item $CUFF
+=item *
 
-=item $COLOR
+C<$THIGH>
 
-=item $GENDER
+=item *
+
+C<$ARM>
+
+=item *
+
+C<$LEG>
+
+=item *
+
+C<$KNEE>
+
+=item *
+
+C<$FOOT>
+
+=item *
+
+C<$PANTS>
+
+=item *
+
+C<$SKIRT>
+
+=item *
+
+C<$LENGTH>
+
+=item *
+
+C<$CUFF>
+
+=item *
+
+C<$COLOR>
+
+=item *
+
+C<$GENDER>
+
+=back
+
+=head1 EXPORT_OK
+
+=over
+
+=item *
+
+C<%AVG_LEG_BY_HEIGHT>
+
+=item *
+
+C<%AVG_KNEE_BY_HEIGHT>
 
 =back
 

@@ -191,7 +191,7 @@ sub unpaid2xxx {
     };
 }
 
-=head2 unpaid2nonpaid
+=head2 unpaid2nonpaid( $order )
 
 미납 -> 불납
 
@@ -269,6 +269,28 @@ sub nonpaid2fullpaid {
 }
 
 =head2 unpaid_cond
+
+    SELECT
+        o.id                    AS o_id,
+        o.user_id               AS o_user_id,
+        o.status_id             AS o_status_id,
+        o.late_fee_pay_with     AS o_late_fee_pay_with,
+        o.compensation_pay_with AS o_compensation_pay_with,
+        SUM( od.final_price )   AS sum_final_price
+    FROM `order` AS o
+    LEFT JOIN `order_detail` AS od ON o.id = od.order_id
+    WHERE (
+        o.`status_id` = 9
+        AND (
+            -- 연체료나 배상비 중 최소 하나는 미납이어야 함
+            o.`late_fee_pay_with` = '미납'
+            OR o.`compensation_pay_with` = '미납'
+        )
+        AND od.stage > 0
+    )
+    GROUP BY o.id
+    HAVING sum_final_price > 0
+    ;
 
 =cut
 
