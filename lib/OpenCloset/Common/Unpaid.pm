@@ -4,11 +4,12 @@ use utf8;
 
 require Exporter;
 @ISA       = qw/Exporter/;
-@EXPORT_OK = qw/unpaid2nonpaid unpaid2fullpaid nonpaid2fullpaid unpaid_cond unpaid_attr is_nonpaid merchant_uid/;
+@EXPORT_OK = qw/unpaid2nonpaid unpaid2fullpaid nonpaid2fullpaid unpaid_cond unpaid_attr is_nonpaid merchant_uid create_vbank/;
 
 use strict;
 use warnings;
 
+use JSON qw/decode_json/;
 use String::Random;
 use Time::HiRes;
 use Try::Tiny;
@@ -375,6 +376,92 @@ sub merchant_uid {
     my $random = String::Random->new->randregex(q{-\w\w\w});
 
     return $prefix . $seconds . $microseconds . $random;
+}
+
+=head2 create_vbank( $order, $params )
+
+    my $params    = {
+        merchant_uid => merchant_uid( "staff-%d-", $id ),
+        amount       => $late_fee,
+        vbank_due    => time + 86400 * 3,              # +3d
+        vbank_holder => '열린옷장-' . $user->name,
+        vbank_code   => '04',                          # 국민은행
+        name         => sprintf( "미납금#%d", $id ),
+        buyer_name   => $user->name,
+        buyer_email  => $user->email,
+        buyer_tel    => $user_info->phone,
+        buyer_addr   => $user_info->address2,
+        'notice_url[]' => 'https://staff.theopencloset.net/webhooks/iamport/unpaid',
+    };
+
+    my $iamport = Iamport::REST::Client->new;
+    my ( $log, $error ) = create_vbank( $iamport, $order, $params );
+
+=cut
+
+sub create_vbank {
+    my ( $iamport, $order, $params ) = @_;
+
+    return ( undef, '$iamport is required' ) unless $iamport;
+    return ( undef, '$order is required' )   unless $order;
+    return ( undef, '$params is required' )  unless $params;
+
+    my $schema       = $order->result_source->schema;
+    my $merchant_uid = $params->{merchant_uid};
+    my $amount       = $params->{amount};
+
+    return ( undef, "`merchant_uid` is required\n" ) unless $merchant_uid;
+    return ( undef, "`amount` is required\n" )       unless $amount;
+
+    my ( $json, $data );
+    $json = $iamport->create_prepare( $merchant_uid, $amount );
+    return ( undef, "The payment agency failed to process" ) unless $json;
+
+    $data = decode_json($json);
+    my ( $log, $error ) = try {
+        my $guard   = $schema->txn_scope_guard;
+        my $payment = $order->create_related(
+            "payments",
+            {
+                cid        => $merchant_uid,
+                amount     => $amount,
+                pay_method => 'vbank'
+            },
+        );
+
+        die "Failed to create a new payment" unless $payment;
+
+        my $log = $payment->create_related(
+            'payment_logs',
+            { status => $data->{response}{status}, detail => $json }
+        );
+
+        die "Failed to create a new payment_log" unless $log;
+
+        $json = $iamport->create_vbank($params);
+        die "Failed to create a new vbank" unless $json;
+
+        $data = decode_json($json);
+        die $data->{message} if $data->{code} ne '0';
+
+        $payment->update( { sid => $data->{response}{imp_uid} } );
+        $log = $payment->create_related(
+            'payment_logs',
+            { status => $data->{response}{status}, detail => $json }
+        );
+
+        die "Failed to create a new payment_log" unless $log;
+
+        $guard->commit;
+        return $log;
+    }
+    catch {
+        chomp;
+        print STDERR "$_\n";
+        return ( undef, $_ );
+    };
+
+    return ( $log, $error );
 }
 
 =head1 COPYRIGHT
