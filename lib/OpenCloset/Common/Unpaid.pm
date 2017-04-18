@@ -4,8 +4,13 @@ use utf8;
 
 require Exporter;
 @ISA       = qw/Exporter/;
-@EXPORT_OK = qw/unpaid2nonpaid unpaid2fullpaid nonpaid2fullpaid unpaid_cond unpaid_attr is_nonpaid/;
+@EXPORT_OK = qw/unpaid2nonpaid unpaid2fullpaid nonpaid2fullpaid unpaid_cond unpaid_attr is_nonpaid merchant_uid/;
 
+use strict;
+use warnings;
+
+use String::Random;
+use Time::HiRes;
 use Try::Tiny;
 
 use OpenCloset::Constants::Status qw/$RETURNED/;
@@ -343,6 +348,33 @@ sub commify {
     local $_ = shift;
     1 while s/((?:\A|[^.0-9])[-+]?\d+)(\d{3})/$1,$2/s;
     return $_;
+}
+
+=head2 merchant_uid( $prefix?, @prefix_params? )
+
+타임스탬프와 임의의 문자를 포함한 거래 식별코드를 생성합니다. iamport 거래
+식별코드가 총 40자 제한이 있고, 타임스탬프 등의 문자가 20자이므로 사용자가
+지정하는 C<$prefix>는 C<20>자 미만이어야 합니다.
+
+    # merchant-1484777630841-Wfg
+    # same as javascript: merchant-' + new Date().getTime() + "-<random_3_chars>"
+    my $merchant_uid = merchant_uid();
+
+    # share-3-1484777630841-D8d
+    my $merchant_uid = merchant_uid( "share-%d-", $order->id );
+
+=cut
+
+sub merchant_uid {
+    my ( $prefix_fmt, @prefix_params ) = @_;
+
+    my $prefix = $prefix_fmt ? sprintf( $prefix_fmt, @prefix_params ) : "merchant_";
+    return unless length($prefix) < 20;
+
+    my ( $seconds, $microseconds ) = Time::HiRes::gettimeofday;
+    my $random = String::Random->new->randregex(q{-\w\w\w});
+
+    return $prefix . $seconds . $microseconds . $random;
 }
 
 =head1 COPYRIGHT

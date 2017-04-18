@@ -1,3 +1,5 @@
+  - Add helper OpenCloset::Common::Unpaid::merchant_uid
+
 v0.0.16   Mon, 10 Apr 2017 13:08:02 +0900
   - Add %OpenCloset::Constants::Measurement::AVG_LEG_BY_HEIGHT
   - Add %OpenCloset::Constants::Measurement::AVG_KNEE_BY_HEIGHT
