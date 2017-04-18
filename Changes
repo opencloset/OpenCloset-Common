@@ -1,3 +1,4 @@
+v0.0.17   Tue, 18 Apr 2017 16:02:34 +0900
   - Add helper OpenCloset::Common::Unpaid::merchant_uid
   - Add helper OpenCloset::Common::Unpaid::create_vbank
 
