@@ -1,6 +1,8 @@
+  - 반납 -> 환불 기능 추가 (#4)
+
 v0.0.17   Tue, 18 Apr 2017 16:02:34 +0900
-  - Add helper OpenCloset::Common::Unpaid::merchant_uid
-  - Add helper OpenCloset::Common::Unpaid::create_vbank
+  - Add OpenCloset::Common::Unpaid::merchant_uid
+  - Add OpenCloset::Common::Unpaid::create_vbank
 
 v0.0.16   Mon, 10 Apr 2017 13:08:02 +0900
   - Add %OpenCloset::Constants::Measurement::AVG_LEG_BY_HEIGHT
