@@ -1,3 +1,5 @@
+  - Add SHIPPING_DEADLINE_HOUR constants
+
 v0.1.2    Tue, 24 Oct 2017 15:23:27 +0900
   - Add missing deps
 

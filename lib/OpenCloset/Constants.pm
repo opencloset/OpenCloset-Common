@@ -3,10 +3,11 @@ package OpenCloset::Constants;
 use utf8;
 require Exporter;
 @ISA       = qw/Exporter/;
-@EXPORT_OK = qw/$DEFAULT_RENTAL_PERIOD $SHIPPING_BUFFER %PAY_METHOD_MAP/;
+@EXPORT_OK = qw/$DEFAULT_RENTAL_PERIOD $SHIPPING_BUFFER $SHIPPING_DEADLINE_HOUR %PAY_METHOD_MAP/;
 
-our $DEFAULT_RENTAL_PERIOD = 3; # 기본 대여기간 3박 4일
-our $SHIPPING_BUFFER       = 2; # 배송기간은 2일
+our $DEFAULT_RENTAL_PERIOD  = 3; # 기본 대여기간 3박 4일
+our $SHIPPING_BUFFER        = 2; # 배송기간은 2일
+our $SHIPPING_DEADLINE_HOUR = 9; # AM 09시 까지 결제 되어야 함
 
 our %PAY_METHOD_MAP = (
     card  => '신용카드',
