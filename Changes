@@ -1,3 +1,5 @@
+  - 주문서에 '입고감'과 관련된 상수 추가
+
 v0.1.5    Thu, 23 Nov 2017 11:23:11 +0900
   - Add %MAX_SUIT_TYPE_COUPON_PRICE
   - Remove $MAX_SUIT_COUPON_PRICE
