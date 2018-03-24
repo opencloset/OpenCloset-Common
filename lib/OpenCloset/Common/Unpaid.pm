@@ -4,7 +4,7 @@ use utf8;
 
 require Exporter;
 @ISA       = qw/Exporter/;
-@EXPORT_OK = qw/unpaid2nonpaid unpaid2fullpaid nonpaid2fullpaid unpaid_cond unpaid_attr is_nonpaid merchant_uid create_vbank/;
+@EXPORT_OK = qw/unpaid2nonpaid unpaid2fullpaid nonpaid2fullpaid unpaid_cond unpaid_attr is_unpaid is_nonpaid merchant_uid create_vbank/;
 
 use strict;
 use warnings;
@@ -329,6 +329,20 @@ sub unpaid_attr {
             },
         ],
     };
+}
+
+=head2 is_unpaid( $order )
+
+=cut
+
+sub is_unpaid {
+    my $order = shift;
+    return unless $order;
+
+    my $cond = unpaid_cond();
+    my $attr = unpaid_attr();
+    push @{ $cond->{-and} }, 'me.id' => $order->id;
+    return $order->result_source->resultset->search( $cond, $attr )->next;
 }
 
 =head2 is_nonpaid( $order )
