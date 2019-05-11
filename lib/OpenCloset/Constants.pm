@@ -11,20 +11,22 @@ our $SHIPPING_BUFFER        = 2;  # 배송기간은 2일
 our $SHIPPING_DEADLINE_HOUR = 9;  # AM 09시 까지 결제 되어야 함
 our $MAX_EXTENSION_DAYS     = 26; # 대여기간 포함 30일까지 대여가능
 
-our $DOES_WEAR_NULL = 0b00;
-our $DOES_WEAR_YES  = 0b01;
-our $DOES_WEAR_MISC = 0b10;
-our $DOES_WEAR_BOTH = 0b11;
+our $DOES_WEAR_NULL   = 0b00;
+our $DOES_WEAR_YES    = 0b01;
+our $DOES_WEAR_MISC   = 0b10;
+our $DOES_WEAR_BOTH   = 0b11;
+our $DOES_WEAR_ONLINE = 0b100;
 
 our $MONITOR_TTS_TO_INDEX = 1;
 our $MONITOR_TTS_TO_ROOM  = 2;
 
 our %DOES_WEAR_MAP = (
-    ''              => '안입고감',
-    $DOES_WEAR_NULL => '안입고감',
-    $DOES_WEAR_YES  => '입고감',
-    $DOES_WEAR_MISC => '기록요망',
-    $DOES_WEAR_BOTH => '입고감+기록요망'
+    ''                => '안입고감',
+    $DOES_WEAR_NULL   => '안입고감',
+    $DOES_WEAR_YES    => '입고감',
+    $DOES_WEAR_MISC   => '기록요망',
+    $DOES_WEAR_BOTH   => '입고감+기록요망',
+    $DOES_WEAR_ONLINE => '온라인예정'
 );
 
 our %MAX_SUIT_TYPE_COUPON_PRICE = (
