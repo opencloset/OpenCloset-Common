@@ -35,10 +35,23 @@ our %MAX_SUIT_TYPE_COUPON_PRICE = (
 ); # 단벌 대여 쿠폰 최대할인 금액
 
 our %PAY_METHOD_MAP = (
-    card  => '신용카드',
-    trans => '실시간계좌이체',
-    vbank => '가상계좌',
-    phone => '휴대폰소액결제',
+    card         => '신용카드',
+    trans        => '실시간계좌이체',
+    vbank        => '가상계좌',
+    phone        => '휴대폰소액결제',
+    samsung      => '삼성페이',
+    kpay         => 'kpay',
+    kakaopay     => '카카오페이',
+    payco        => '페이코',
+    lpay         => 'LPAY',
+    ssgpay       => 'SSG페이',
+    tosspay      => '토스페이',
+    cultureland  => '문화상품권',
+    smartculture => '스마트문상',
+    happymoney   => '해피머니',
+    booknlife    => '도서문화상품권',
+    point        => '포인트결제',
+    coupon       => '쿠폰',
 );
 
 1;
@@ -55,6 +68,6 @@ OpenCloset::Constants
 
 The MIT License (MIT)
 
-Copyright (c) 2016 열린옷장
+Copyright (c) 2020 열린옷장
 
 =cut
